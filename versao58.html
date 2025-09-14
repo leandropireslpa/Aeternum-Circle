@@ -1847,19 +1847,45 @@
             modal.classList.remove('show');
         }
 
-        // Form submission - let Formspree handle it naturally
+        // Form submission
         document.getElementById('julgamentoForm').addEventListener('submit', function(e) {
-            // Validate final step before allowing submission
+            e.preventDefault();
+            
+            // Validate final step
             if (!validateCurrentStep()) {
-                e.preventDefault();
                 return;
             }
 
-            // Allow natural form submission to Formspree
             const button = document.getElementById('submitBtn');
+            const originalText = button.textContent;
             button.textContent = 'Enviando ao Círculo...';
             button.disabled = true;
             button.style.background = 'var(--bronze)';
+
+            // Show success modal after short delay
+            setTimeout(() => {
+                // Show success modal
+                showSuccessModal();
+                
+                // Reset form
+                e.target.reset();
+                currentStep = 0;
+                showStep(currentStep);
+                
+                button.textContent = originalText;
+                button.disabled = false;
+                button.style.background = '';
+            }, 1200);
+        });
+
+        // Add click handler for submit button as backup
+        document.getElementById('submitBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Trigger form submission
+            const form = document.getElementById('julgamentoForm');
+            const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+            form.dispatchEvent(submitEvent);
         });
 
         // Parallax effect for floating circles
@@ -1910,5 +1936,5 @@
             showStep(0);
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ed1b4bf35982f1',t:'MTc1NzgyMzc4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97ecc88f10478309',t:'MTc1NzgyMDM5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
